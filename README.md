@@ -1,4 +1,4 @@
 
-# DearpyGUI Plots and Helpers
+# Dear PyGUI Plots and Helpers
 
-![DearPyGUI Plots](dpg_plots.png)
+![Dear PyGUI Plots](assets/dpg_plots.png)
