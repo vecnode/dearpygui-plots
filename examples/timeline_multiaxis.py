@@ -3,8 +3,8 @@
 Original sketch: vecnode 28-06-2023.
 
 Run with: ``python -m examples.timeline_multiaxis``. Annotations load from
-``timekeys.txt`` at the repository root; adjust ``CONFIG`` for viewport size,
-sample count, and that filename.
+``assets/timekeys.txt`` (relative to the repository root); adjust ``CONFIG`` for viewport size,
+sample count, and that path.
 """
 
 from dataclasses import dataclass
@@ -24,7 +24,7 @@ class PlotConfig:
     viewport_width: int = 1280
     viewport_height: int = 600
     line_point_count: int = 10000
-    timekeys_file: str = "timekeys.txt"
+    timekeys_file: str = "assets/timekeys.txt"
 
 
 CONFIG = PlotConfig()

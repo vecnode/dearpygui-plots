@@ -1,2 +1,3 @@
+# Same deps as pyproject.toml; prefer `uv sync` + uv.lock for pinned installs.
 dearpygui
 pillow
