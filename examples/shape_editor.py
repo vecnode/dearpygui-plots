@@ -3,7 +3,7 @@ from __future__ import annotations
 import dearpygui.dearpygui as dpg
 from dataclasses import dataclass, field
 
-from helpers import run_app
+from .helpers import run_app
 
 
 stored_shapes: dict[str, Shape] = {}

@@ -1,7 +1,7 @@
 from __future__ import annotations
 import dearpygui.dearpygui as dpg
 
-from helpers import run_app
+from .helpers import run_app
 
 POLYGONS:int = 10_000 # the amount of polygons to be generated
 POLYGON = ((0.,0.),(0.,1.),(1.,1.),(1.,0.)) # shape of the polygon

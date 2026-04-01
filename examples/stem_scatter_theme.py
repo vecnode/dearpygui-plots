@@ -1,7 +1,7 @@
 import dearpygui.dearpygui as dpg
 from math import sin
 
-from helpers import run_app
+from .helpers import run_app
 
 
 def build_ui():

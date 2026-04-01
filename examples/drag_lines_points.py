@@ -1,6 +1,6 @@
 import dearpygui.dearpygui as dpg
 
-from helpers import run_app
+from .helpers import run_app
 
 
 class DraggablePoints:
