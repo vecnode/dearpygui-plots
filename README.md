@@ -9,7 +9,7 @@ A set of scripts with customised graphs and plots in DearPyGUI.
 uv sync
 ```
 
-Run an example module (opens a GUI; `timeline_multiaxis` loads `timekeys.txt` at the repo root):
+Run an example module (opens a GUI; `timeline_multiaxis` reads annotations from `assets/timekeys.txt`):
 
 ```sh
 uv run -m examples.bar_series

@@ -11,7 +11,7 @@ AVAILABLE_EXAMPLES = {
     "large_polygon_custom_series": "Many polygons in a custom series (metrics window)",
     "stem_scatter_theme": "Stem and scatter series with theme",
     "drag_lines_points": "Drag lines and points on a plot",
-    "timeline_multiaxis": "Timeline annotations and multi-axis plot (reads timekeys.txt)",
+    "timeline_multiaxis": "Timeline annotations and multi-axis plot (reads assets/timekeys.txt)",
     "screenshot": "Viewport / window screenshot demo",
 }
 
