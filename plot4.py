@@ -1,6 +1,8 @@
 from __future__ import annotations
 import dearpygui.dearpygui as dpg
 
+from helpers import run_app
+
 POLYGONS:int = 10_000 # the amount of polygons to be generated
 POLYGON = ((0.,0.),(0.,1.),(1.,1.),(1.,0.)) # shape of the polygon
 POLYGON_COLOR = (0,0,0)
@@ -63,38 +65,31 @@ def create_items():
             tuple((x+i,y+i) for x,y in POLYGON)
         )
 
-def main():
-    dpg.create_context()
-    dpg.create_viewport(title='Plot with large Custom Series Example')
-
-    with dpg.window(tag="primary_window"):
-        with dpg.group(horizontal=True, horizontal_spacing=375):
-            dpg.add_button(
-                label="Create items",
-                callback=create_items,
-                width=100
+def build_ui():
+    with dpg.group(horizontal=True, horizontal_spacing=375):
+        dpg.add_button(
+            label="Create items",
+            callback=create_items,
+            width=100
+        )
+        dpg.add_text(tag="txt_output")
+    with dpg.plot(width=500, height=500, tag="plot"):
+        dpg.add_plot_axis(axis=dpg.mvXAxis)
+        with dpg.plot_axis(axis=dpg.mvYAxis):
+            dpg.add_custom_series(
+                x= [0.,1.],
+                y= [0.,1.],
+                channel_count=2,
+                callback=custom_series_callback
             )
-            dpg.add_text(tag="txt_output")
-        with dpg.plot(width=500, height=500, tag="plot"):
-            dpg.add_plot_axis(axis=dpg.mvXAxis)
-            with dpg.plot_axis(axis=dpg.mvYAxis):
-                dpg.add_custom_series(
-                    x= [0.,1.],
-                    y= [0.,1.],
-                    channel_count=2,
-                    callback=custom_series_callback
-                )
 
-    dpg.set_primary_window("primary_window", True)
-
-    dpg.show_metrics()
-
-    dpg.setup_dearpygui()
-    dpg.show_viewport()
-    dpg.start_dearpygui()
-    dpg.destroy_context()
 
 if __name__ == '__main__':
-    main()
-
-
+    run_app(
+        build_ui,
+        title='Plot with large Custom Series Example',
+        window_tag="primary_window",
+        window_kwargs={"label": "primary_window"},
+        set_primary_window_tag="primary_window",
+        show_metrics=True,
+    )

@@ -3,8 +3,10 @@ from __future__ import annotations
 import dearpygui.dearpygui as dpg
 from dataclasses import dataclass, field
 
+from helpers import run_app
 
-stored_shapes:dict[str:Shape] = {}
+
+stored_shapes: dict[str, Shape] = {}
 active_drag_points:list[str | int] = []
 
 @dataclass()
@@ -99,43 +101,38 @@ def custom_series_painter(sender,app_data):
         dpg.configure_item(sender, tooltip=False)
         dpg.pop_container_stack()
 
-def main():
-    dpg.create_context()
-    dpg.create_viewport(title="Plot as Shape Editor")
+def build_ui():
+    with dpg.group(horizontal=True, tag="LytMain"):
+        with dpg.group(tag="LytCol1"):
+            with dpg.plot(tag="PlotEditor", width=500, height=500):
+                dpg.add_plot_axis(axis=dpg.mvXAxis, tag="PlotAxisX")
+                with dpg.plot_axis(axis=dpg.mvYAxis, tag="PlotAxisY"):
+                    dpg.add_custom_series(x= [0.,1.], y= [0.,1.], channel_count=2, callback=custom_series_painter)
 
-    with dpg.window(tag="PrimaryWindow"):
-        with dpg.group(horizontal=True, tag="LytMain"):
-            with dpg.group(tag="LytCol1"):
-                with dpg.plot(tag="PlotEditor", width=500, height=500):
-                    dpg.add_plot_axis(axis=dpg.mvXAxis, tag="PlotAxisX")
-                    with dpg.plot_axis(axis=dpg.mvYAxis, tag="PlotAxisY"):
-                        dpg.add_custom_series(x= [0.,1.], y= [0.,1.], channel_count=2, callback=custom_series_painter)
+        with dpg.group(tag="LytCol2"):
+            with dpg.group(tag="LytCol2_NewShape", horizontal=True):
+                dpg.add_text("New shape's name")
+                dpg.add_input_text(
+                    tag="InTxtShapeName",
+                    on_enter=True,
+                    callback=create_shape,
+                    width=250
+                )
+                dpg.add_button(
+                    tag="BtnCreateShape",
+                    label="Create",
+                    callback=create_shape
+                )
 
-            with dpg.group(tag="LytCol2"):
-                with dpg.group(tag="LytCol2_NewShape", horizontal=True):
-                    dpg.add_text("New shape's name")
-                    dpg.add_input_text(
-                        tag="InTxtShapeName",
-                        on_enter=True,
-                        callback=create_shape,
-                        width=250
-                    )
-                    dpg.add_button(
-                        tag="BtnCreateShape",
-                        label="Create",
-                        callback=create_shape
-                    )
+            with dpg.table(tag="TblShapes", header_row=False):
+                dpg.add_table_column()
 
-                with dpg.table(tag="TblShapes", header_row=False):
-                    dpg.add_table_column()
-
-    dpg.set_primary_window("PrimaryWindow", True)
-    dpg.setup_dearpygui()
-    dpg.show_viewport()
-    dpg.start_dearpygui()
-    dpg.destroy_context()
 
 if __name__ == '__main__':
-    main()
-
-
+    run_app(
+        build_ui,
+        title="Plot as Shape Editor",
+        window_tag="PrimaryWindow",
+        window_kwargs={"label": "PrimaryWindow"},
+        set_primary_window_tag="PrimaryWindow",
+    )

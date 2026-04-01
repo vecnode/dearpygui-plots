@@ -2,6 +2,9 @@ from __future__ import annotations
 import dearpygui.dearpygui as dpg
 from PIL import Image
 
+from helpers import run_app
+
+
 def picture_of_window(_, buffer:dpg.mvBuffer):
     x,y = dpg.get_item_pos("window")
     width = dpg.get_item_width("window")
@@ -18,10 +21,7 @@ def picture_of_window(_, buffer:dpg.mvBuffer):
     image_edit.save("screenshot_window_edit.png")
 
 
-def main():
-    dpg.create_context()
-    dpg.create_viewport(title='Screenshot Example')
-
+def build_ui():
     with dpg.window(tag="window",label="Screenshot Example"):
         dpg.add_text("Hello world!")
         dpg.add_button(
@@ -33,12 +33,6 @@ def main():
             callback=lambda : dpg.output_frame_buffer(callback=picture_of_window)
         )
 
-    dpg.setup_dearpygui()
-    dpg.show_viewport()
-    dpg.start_dearpygui()
-    dpg.destroy_context()
 
-
-if __name__ == '__main__':
-    main()
-
+if __name__ == "__main__":
+    run_app(build_ui, title="Screenshot Example", wrap_window=False)
