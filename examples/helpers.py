@@ -1,3 +1,5 @@
+"""Shared DearPyGui bootstrap: viewport, optional main window, event loop."""
+
 import dearpygui.dearpygui as dpg
 
 

@@ -1,5 +1,13 @@
-# vecnode 28-06-2023
+"""Dense line data with multiple Y axes, drag gadgets, and optional time annotations.
 
+Original sketch: vecnode 28-06-2023.
+
+Run with: ``python -m examples.timeline_multiaxis``. Annotations load from
+``timekeys.txt`` at the repository root; adjust ``CONFIG`` for viewport size,
+sample count, and that filename.
+"""
+
+from dataclasses import dataclass
 from pathlib import Path
 
 import dearpygui.dearpygui as dpg
@@ -9,14 +17,21 @@ from .helpers import run_app
 
 _REPO_ROOT = Path(__file__).resolve().parent.parent
 
-# window
 
-window_width = 1280
-window_height = 600
+@dataclass
+class PlotConfig:
+    viewport_title: str = " "
+    viewport_width: int = 1280
+    viewport_height: int = 600
+    line_point_count: int = 10000
+    timekeys_file: str = "timekeys.txt"
+
+
+CONFIG = PlotConfig()
 
 sindatax = []
 sindatay = []
-for i in range(0, 10000):
+for i in range(0, CONFIG.line_point_count):
     sindatax.append(i / 500)
     sindatay.append(0.5 + 0.5 * sin(50 * i / 1000))
 
@@ -54,7 +69,7 @@ def callback1(sender, data):
 
 
 def callback3(sender, data):
-    create_annotations_from_file(str(_REPO_ROOT / "timekeys.txt"), "mainplot", color=[255, 255, 255, 255])
+    create_annotations_from_file(str(_REPO_ROOT / CONFIG.timekeys_file), "mainplot", color=[255, 255, 255, 255])
 
 
 
@@ -67,8 +82,9 @@ def print_val(sender):
     print(dpg.get_value(sender))
 
 def build_ui():
-    with dpg.window(label="main_window", tag="main_window", pos=(0,0), no_close=True, no_move=True, no_resize=True, no_title_bar=True, no_collapse=True, no_scrollbar=True, width=window_width, height=window_height):
-        with dpg.window(label="second_window", tag="second_window", pos=(0,0), no_close=True, no_move=True, no_resize=True, no_title_bar=True, no_collapse=True, no_scrollbar=True, width=window_width, height=window_height):
+    w, h = CONFIG.viewport_width, CONFIG.viewport_height
+    with dpg.window(label="main_window", tag="main_window", pos=(0,0), no_close=True, no_move=True, no_resize=True, no_title_bar=True, no_collapse=True, no_scrollbar=True, width=w, height=h):
+        with dpg.window(label="second_window", tag="second_window", pos=(0,0), no_close=True, no_move=True, no_resize=True, no_title_bar=True, no_collapse=True, no_scrollbar=True, width=w, height=h):
             with dpg.group(horizontal=True):
                 with dpg.child_window(width=100):
                     dpg.add_button(label="overview", callback=callback1, width=-1)
@@ -102,9 +118,9 @@ def build_ui():
 if __name__ == "__main__":
     run_app(
         build_ui,
-        title=' ',
-        width=window_width,
-        height=window_height,
+        title=CONFIG.viewport_title,
+        width=CONFIG.viewport_width,
+        height=CONFIG.viewport_height,
         wrap_window=False,
         set_primary_window_tag="main_window",
     )

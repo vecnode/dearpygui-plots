@@ -1,4 +1,8 @@
-"""Print available examples and how to run them. Usage: python -m examples.index"""
+"""Print available examples and how to run them.
+
+Usage: ``python -m examples.index`` from the repository root.
+Descriptions mirror the README *Examples* section.
+"""
 
 AVAILABLE_EXAMPLES = {
     "bar_series": "Grouped bar chart (student scores)",

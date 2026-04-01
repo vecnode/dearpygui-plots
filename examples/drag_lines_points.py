@@ -1,6 +1,26 @@
+"""Drag lines and drag points on a plot (no axis parent for drag items).
+
+Run with: ``python -m examples.drag_lines_points``. Change ``CONFIG`` for window
+width, plot height, and default drag colors.
+"""
+
+from dataclasses import dataclass
+
 import dearpygui.dearpygui as dpg
 
 from .helpers import run_app
+
+
+@dataclass
+class PlotConfig:
+    window_width: int = 400
+    plot_height: int = 400
+    drag_line_color_a: tuple[int, int, int, int] = (255, 0, 0, 255)
+    drag_line_color_b: tuple[int, int, int, int] = (255, 255, 0, 255)
+    drag_point_color: tuple[int, int, int, int] = (255, 0, 255, 255)
+
+
+CONFIG = PlotConfig()
 
 
 class DraggablePoints:
@@ -35,17 +55,17 @@ def custom_series_callback(sender, app_data):
 
 def build_ui():
     dpg.add_button(label="plot", callback=add_points_to_plot)
-    with dpg.plot(tag="plot1", label="plot1", height=400, width=-1):
+    with dpg.plot(tag="plot1", label="plot1", height=CONFIG.plot_height, width=-1):
         dpg.add_plot_legend()
         dpg.add_plot_axis(dpg.mvXAxis, label="x")
         dpg.add_plot_axis(dpg.mvYAxis, label="y")
 
         # drag lines/points belong to the plot NOT axis
-        dpg.add_drag_line(label="dline1", color=[255, 0, 0, 255])
-        dpg.add_drag_line(label="dline2", color=[255, 255, 0, 255], vertical=False)
-        dpg.add_drag_point(label="dpoint1", color=[255, 0, 255, 255])
-        dpg.add_drag_point(label="dpoint2", color=[255, 0, 255, 255])
+        dpg.add_drag_line(label="dline1", color=list(CONFIG.drag_line_color_a))
+        dpg.add_drag_line(label="dline2", color=list(CONFIG.drag_line_color_b), vertical=False)
+        dpg.add_drag_point(label="dpoint1", color=list(CONFIG.drag_point_color))
+        dpg.add_drag_point(label="dpoint2", color=list(CONFIG.drag_point_color))
 
 
 if __name__ == "__main__":
-    run_app(build_ui, window_kwargs={"width": 400})
+    run_app(build_ui, window_kwargs={"width": CONFIG.window_width})

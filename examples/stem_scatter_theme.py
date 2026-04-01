@@ -1,18 +1,40 @@
+"""Stem and scatter series sharing a plot theme (markers and colors).
+
+Run with: ``python -m examples.stem_scatter_theme``. Adjust ``CONFIG`` for viewport
+title, window size, sample count, and plot label.
+"""
+
+from dataclasses import dataclass
+
 import dearpygui.dearpygui as dpg
 from math import sin
 
 from .helpers import run_app
 
 
+@dataclass
+class PlotConfig:
+    viewport_title: str = "Custom Title"
+    window_label: str = "Tutorial"
+    window_width: int = 500
+    window_height: int = 400
+    sample_count: int = 100
+    plot_label: str = "Line Series"
+
+
+CONFIG = PlotConfig()
+
+
 def build_ui():
+    n = CONFIG.sample_count
     sindatax = []
     sindatay = []
-    for i in range(0, 100):
-        sindatax.append(i / 100)
-        sindatay.append(0.5 + 0.5 * sin(50 * i / 100))
+    for i in range(0, n):
+        sindatax.append(i / n)
+        sindatay.append(0.5 + 0.5 * sin(50 * i / n))
     sindatay2 = []
-    for i in range(0, 100):
-        sindatay2.append(2 + 0.5 * sin(50 * i / 100))
+    for i in range(0, n):
+        sindatay2.append(2 + 0.5 * sin(50 * i / n))
 
     # create a theme for the plot
     with dpg.theme(tag="plot_theme"):
@@ -27,7 +49,7 @@ def build_ui():
             dpg.add_theme_style(dpg.mvPlotStyleVar_MarkerSize, 4, category=dpg.mvThemeCat_Plots)
 
     # create plot
-    with dpg.plot(tag="plot", label="Line Series", height=-1, width=-1):
+    with dpg.plot(tag="plot", label=CONFIG.plot_label, height=-1, width=-1):
         # optionally create legend
         dpg.add_plot_legend()
         # REQUIRED: create x and y axes
@@ -44,4 +66,9 @@ def build_ui():
 
 
 if __name__ == "__main__":
-    run_app(build_ui, title="Custom Title", window_label="Tutorial", window_kwargs={"width": 500, "height": 400})
+    run_app(
+        build_ui,
+        title=CONFIG.viewport_title,
+        window_label=CONFIG.window_label,
+        window_kwargs={"width": CONFIG.window_width, "height": CONFIG.window_height},
+    )
