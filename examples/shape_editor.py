@@ -1,9 +1,27 @@
 
+"""Polygon shape editor: draw shapes on a custom series and edit vertices with drag points.
+
+Run with: ``python -m examples.shape_editor``. Tweak ``CONFIG`` for viewport
+and primary-window tags used by this layout.
+"""
+
 from __future__ import annotations
 import dearpygui.dearpygui as dpg
 from dataclasses import dataclass, field
 
 from .helpers import run_app
+
+
+@dataclass
+class PlotConfig:
+    viewport_title: str = "Plot as Shape Editor"
+    primary_window_tag: str = "PrimaryWindow"
+    primary_window_label: str = "PrimaryWindow"
+    editor_plot_width: int = 500
+    editor_plot_height: int = 500
+
+
+CONFIG = PlotConfig()
 
 
 stored_shapes: dict[str, Shape] = {}
@@ -104,7 +122,7 @@ def custom_series_painter(sender,app_data):
 def build_ui():
     with dpg.group(horizontal=True, tag="LytMain"):
         with dpg.group(tag="LytCol1"):
-            with dpg.plot(tag="PlotEditor", width=500, height=500):
+            with dpg.plot(tag="PlotEditor", width=CONFIG.editor_plot_width, height=CONFIG.editor_plot_height):
                 dpg.add_plot_axis(axis=dpg.mvXAxis, tag="PlotAxisX")
                 with dpg.plot_axis(axis=dpg.mvYAxis, tag="PlotAxisY"):
                     dpg.add_custom_series(x= [0.,1.], y= [0.,1.], channel_count=2, callback=custom_series_painter)
@@ -131,8 +149,8 @@ def build_ui():
 if __name__ == '__main__':
     run_app(
         build_ui,
-        title="Plot as Shape Editor",
-        window_tag="PrimaryWindow",
-        window_kwargs={"label": "PrimaryWindow"},
-        set_primary_window_tag="PrimaryWindow",
+        title=CONFIG.viewport_title,
+        window_tag=CONFIG.primary_window_tag,
+        window_kwargs={"label": CONFIG.primary_window_label},
+        set_primary_window_tag=CONFIG.primary_window_tag,
     )

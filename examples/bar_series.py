@@ -1,10 +1,30 @@
+"""Grouped bar series: multiple exam scores per student with custom X ticks.
+
+Run with: ``python -m examples.bar_series``. Adjust ``CONFIG`` to change
+viewport title, window size, and plot label without editing layout code.
+"""
+
+from dataclasses import dataclass
+
 import dearpygui.dearpygui as dpg
 
 from .helpers import run_app
 
 
+@dataclass
+class PlotConfig:
+    viewport_title: str = "Custom Title"
+    window_label: str = "Tutorial"
+    window_width: int = 400
+    window_height: int = 400
+    plot_label: str = "Bar Series"
+
+
+CONFIG = PlotConfig()
+
+
 def build_ui():
-    with dpg.plot(label="Bar Series", height=-1, width=-1):
+    with dpg.plot(label=CONFIG.plot_label, height=-1, width=-1):
         dpg.add_plot_legend()
 
         # create x axis
@@ -21,4 +41,9 @@ def build_ui():
 
 
 if __name__ == "__main__":
-    run_app(build_ui, title="Custom Title", window_label="Tutorial", window_kwargs={"width": 400, "height": 400})
+    run_app(
+        build_ui,
+        title=CONFIG.viewport_title,
+        window_label=CONFIG.window_label,
+        window_kwargs={"width": CONFIG.window_width, "height": CONFIG.window_height},
+    )

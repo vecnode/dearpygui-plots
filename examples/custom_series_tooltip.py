@@ -1,9 +1,31 @@
+"""Custom series with per-point drawing and a hover-driven tooltip.
+
+Run with: ``python -m examples.custom_series_tooltip``. Edit ``CONFIG`` to
+change sample data, plot size, and window tags.
+"""
+
+from dataclasses import dataclass
+
 import dearpygui.dearpygui as dpg
 
 from .helpers import run_app
 
-x_data = [0.0, 1.0, 2.0, 4.0, 5.0]
-y_data = [0.0, 10.0, 20.0, 40.0, 50.0]
+
+@dataclass
+class PlotConfig:
+    viewport_title: str = "DearPyGui Plot Example"
+    window_label: str = "Tutorial"
+    window_tag: str = "plot3_window"
+    plot_label: str = "Custom Series"
+    plot_height: int = 400
+    x_data: tuple[float, ...] = (0.0, 1.0, 2.0, 4.0, 5.0)
+    y_data: tuple[float, ...] = (0.0, 10.0, 20.0, 40.0, 50.0)
+
+
+CONFIG = PlotConfig()
+
+x_data = list(CONFIG.x_data)
+y_data = list(CONFIG.y_data)
 
 def callback(sender, app_data):
 
@@ -31,7 +53,7 @@ def callback(sender, app_data):
 
 def build_ui():
     dpg.add_text("Hover an item for a custom tooltip!")
-    with dpg.plot(label="Custom Series", height=400, width=-1):
+    with dpg.plot(label=CONFIG.plot_label, height=CONFIG.plot_height, width=-1):
         dpg.add_plot_legend()
         dpg.add_plot_axis(dpg.mvXAxis)
         with dpg.plot_axis(dpg.mvYAxis):
@@ -43,8 +65,8 @@ def build_ui():
 if __name__ == "__main__":
     run_app(
         build_ui,
-        title="DearPyGui Plot Example",
-        window_label="Tutorial",
-        window_tag="plot3_window",
-        set_primary_window_tag="plot3_window",
+        title=CONFIG.viewport_title,
+        window_label=CONFIG.window_label,
+        window_tag=CONFIG.window_tag,
+        set_primary_window_tag=CONFIG.window_tag,
     )
