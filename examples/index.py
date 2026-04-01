@@ -1,6 +1,6 @@
 """Print available examples and how to run them.
 
-Usage: ``python -m examples.index`` from the repository root.
+Usage: ``uv run -m examples.index`` (or ``python -m examples.index``) from the repo root.
 Descriptions mirror the README *Examples* section.
 """
 
@@ -21,7 +21,7 @@ def main() -> None:
     for name, blurb in AVAILABLE_EXAMPLES.items():
         print(f"  {name}")
         print(f"    {blurb}")
-        print(f"    python -m examples.{name}\n")
+        print(f"    uv run -m examples.{name}\n")
 
 
 if __name__ == "__main__":
