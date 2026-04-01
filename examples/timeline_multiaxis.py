@@ -1,9 +1,13 @@
 # vecnode 28-06-2023
 
-import dearpygui.dearpygui as dpg
-from math import sin, cos
+from pathlib import Path
 
-from helpers import run_app
+import dearpygui.dearpygui as dpg
+from math import sin
+
+from .helpers import run_app
+
+_REPO_ROOT = Path(__file__).resolve().parent.parent
 
 # window
 
@@ -50,7 +54,7 @@ def callback1(sender, data):
 
 
 def callback3(sender, data):
-    create_annotations_from_file("timekeys.txt", "mainplot", color=[255, 255, 255, 255])
+    create_annotations_from_file(str(_REPO_ROOT / "timekeys.txt"), "mainplot", color=[255, 255, 255, 255])
 
 
 

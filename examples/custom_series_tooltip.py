@@ -1,6 +1,6 @@
 import dearpygui.dearpygui as dpg
 
-from helpers import run_app
+from .helpers import run_app
 
 x_data = [0.0, 1.0, 2.0, 4.0, 5.0]
 y_data = [0.0, 10.0, 20.0, 40.0, 50.0]

@@ -2,7 +2,7 @@ from __future__ import annotations
 import dearpygui.dearpygui as dpg
 from PIL import Image
 
-from helpers import run_app
+from .helpers import run_app
 
 
 def picture_of_window(_, buffer:dpg.mvBuffer):
