@@ -1,4 +1,4 @@
 
-# Dear PyGUI Plots and Helpers
+# DearPyGUI plots and helpers
 
-![Dear PyGUI Plots](assets/dpg_plots.png)
+A set of scripts with customised graphs and plots in DearPyGUI.
