@@ -1,8 +1,9 @@
 import dearpygui.dearpygui as dpg
 
-dpg.create_context()
+from helpers import run_app
 
-with dpg.window(label="Tutorial", width=400, height=400):
+
+def build_ui():
     with dpg.plot(label="Bar Series", height=-1, width=-1):
         dpg.add_plot_legend()
 
@@ -18,8 +19,6 @@ with dpg.window(label="Tutorial", width=400, height=400):
         dpg.add_bar_series([11, 21, 31], [83, 75, 72], label="Midterm Exam", weight=1, parent="yaxis_tag")
         dpg.add_bar_series([12, 22, 32], [42, 68, 23], label="Course Grade", weight=1, parent="yaxis_tag")
 
-dpg.create_viewport(title='Custom Title', width=800, height=600)
-dpg.setup_dearpygui()
-dpg.show_viewport()
-dpg.start_dearpygui()
-dpg.destroy_context()
+
+if __name__ == "__main__":
+    run_app(build_ui, title="Custom Title", window_label="Tutorial", window_kwargs={"width": 400, "height": 400})

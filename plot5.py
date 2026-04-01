@@ -1,18 +1,19 @@
 import dearpygui.dearpygui as dpg
 from math import sin
 
-dpg.create_context()
+from helpers import run_app
 
-sindatax = []
-sindatay = []
-for i in range(0, 100):
-    sindatax.append(i / 100)
-    sindatay.append(0.5 + 0.5 * sin(50 * i / 100))
-sindatay2 = []
-for i in range(0, 100):
-    sindatay2.append(2 + 0.5 * sin(50 * i / 100))
 
-with dpg.window(label="Tutorial", width=500, height=400):
+def build_ui():
+    sindatax = []
+    sindatay = []
+    for i in range(0, 100):
+        sindatax.append(i / 100)
+        sindatay.append(0.5 + 0.5 * sin(50 * i / 100))
+    sindatay2 = []
+    for i in range(0, 100):
+        sindatay2.append(2 + 0.5 * sin(50 * i / 100))
+
     # create a theme for the plot
     with dpg.theme(tag="plot_theme"):
         with dpg.theme_component(dpg.mvStemSeries):
@@ -41,8 +42,6 @@ with dpg.window(label="Tutorial", width=500, height=400):
         dpg.bind_item_theme("series_data", "plot_theme")
         dpg.bind_item_theme("series_data2", "plot_theme")
 
-dpg.create_viewport(title='Custom Title', width=800, height=600)
-dpg.setup_dearpygui()
-dpg.show_viewport()
-dpg.start_dearpygui()
-dpg.destroy_context()
+
+if __name__ == "__main__":
+    run_app(build_ui, title="Custom Title", window_label="Tutorial", window_kwargs={"width": 500, "height": 400})

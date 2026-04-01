@@ -1,8 +1,6 @@
 import dearpygui.dearpygui as dpg
 
-dpg.create_context()
-dpg.create_viewport()
-dpg.setup_dearpygui()
+from helpers import run_app
 
 x_data = [0.0, 1.0, 2.0, 4.0, 5.0]
 y_data = [0.0, 10.0, 20.0, 40.0, 50.0]
@@ -31,17 +29,22 @@ def callback(sender, app_data):
             dpg.set_value("custom_series_text", "Current Point: " + str(i))
     dpg.pop_container_stack()
 
-with dpg.window(label="Tutorial") as win:
+def build_ui():
     dpg.add_text("Hover an item for a custom tooltip!")
     with dpg.plot(label="Custom Series", height=400, width=-1):
         dpg.add_plot_legend()
-        xaxis = dpg.add_plot_axis(dpg.mvXAxis)
+        dpg.add_plot_axis(dpg.mvXAxis)
         with dpg.plot_axis(dpg.mvYAxis):
             with dpg.custom_series(x_data, y_data, 2, label="Custom Series", callback=callback, tag="demo_custom_series"):
                 dpg.add_text("Current Point: ", tag="custom_series_text")
             dpg.fit_axis_data(dpg.top_container_stack())
 
-dpg.set_primary_window(win, True)
-dpg.show_viewport()
-dpg.start_dearpygui()
-dpg.destroy_context()
+
+if __name__ == "__main__":
+    run_app(
+        build_ui,
+        title="DearPyGui Plot Example",
+        window_label="Tutorial",
+        window_tag="plot3_window",
+        set_primary_window_tag="plot3_window",
+    )

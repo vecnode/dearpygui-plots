@@ -1,7 +1,6 @@
 import dearpygui.dearpygui as dpg
 
-dpg.create_context()
-dpg.create_viewport()
+from helpers import run_app
 
 
 class DraggablePoints:
@@ -13,9 +12,9 @@ class DraggablePoints:
         self.height = height
 
     def do(self):
-        d_point = dpg.add_drag_point(label="dpoint1", color=self.color, parent=self.parent, width=self.width, height=self.height)
+        dpg.add_drag_point(label="dpoint1", color=self.color, parent=self.parent, width=self.width, height=self.height)
 
-x = DraggablePoints([0, 0], "plot1", 10, 10)    
+x = DraggablePoints([0, 0], "plot1", 10, 10)
 
 def add_points_to_plot(sender, app_data):
     dpg.add_child
@@ -34,7 +33,7 @@ def custom_series_callback(sender, app_data):
         dpg.draw_line(p1, p2)
     dpg.pop_container_stack()
 
-with dpg.window(width=400):
+def build_ui():
     dpg.add_button(label="plot", callback=add_points_to_plot)
     with dpg.plot(tag="plot1", label="plot1", height=400, width=-1):
         dpg.add_plot_legend()
@@ -47,9 +46,6 @@ with dpg.window(width=400):
         dpg.add_drag_point(label="dpoint1", color=[255, 0, 255, 255])
         dpg.add_drag_point(label="dpoint2", color=[255, 0, 255, 255])
 
-dpg.show_viewport()
-dpg.setup_dearpygui()
-dpg.start_dearpygui()
-dpg.destroy_context()
 
-
+if __name__ == "__main__":
+    run_app(build_ui, window_kwargs={"width": 400})
